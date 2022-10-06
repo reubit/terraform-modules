@@ -1,0 +1,17 @@
+{{- if .Values.podDisruptionBudget.enabled -}}
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    release: {{ .Release.Name }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+{{ include "app.commonlabels" . | indent 4 }}
+spec:
+  {{- with .Values.podDisruptionBudget.spec }}{{ toYaml . | trim | nindent 2 }}{{ end }}
+  selector:
+    matchLabels:
+      app: {{ template "fullname" . }}
+      release: {{ .Release.Name }}
+{{- end }}

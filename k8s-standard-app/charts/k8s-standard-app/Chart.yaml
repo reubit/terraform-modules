@@ -1,0 +1,4 @@
+apiVersion: v1
+description: Reubit standard kubernetes app
+name: k8s-standard-app
+version: 1.0.0

@@ -1,0 +1,139 @@
+# Default values for chart.
+app:
+  team: team
+  product: default
+  environment: dev
+  system: system
+  component: api
+  instance: default
+
+deployment:
+  replicaCount: 2
+  image:
+    repository: '<required>'
+    tag: '<required>'
+    pullPolicy: IfNotPresent
+  rollingUpdate:
+    maxSurge: 2
+    maxUnavailable: 0
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  podAntiAffinity:
+    preferred:
+      node:
+        enabled: true
+        weight: 10  # Set this higher to prefer unique nodes over zone spread
+      zone:
+        enabled: true
+        weight: 10  # Set this higher to prefer zone spread over unique nodes
+      custom: []
+    required:
+      node:
+        enabled: false
+      custom: []
+  livenessProbeEnabled: false
+  livenessProbe: {}
+    # httpGet:
+    #   path: '/healthcheck'
+    #   port: 8080
+    #   scheme: HTTP
+    # initialDelaySeconds: 60
+    # timeoutSeconds: 2
+    # periodSeconds: 10
+  readinessProbeEnabled: false
+  readinessProbe: {}
+    # httpGet:
+    #   path: '/healthcheck'
+    #   port: 8080
+    #   scheme: HTTP
+    # initialDelaySeconds: 60
+    # timeoutSeconds: 2
+    # periodSeconds: 10
+  # serviceAccountName: service-account
+  # podAnnotations: {}
+  # podLabels: {}
+  # nodeSelector: {}
+  # workingDir: /
+  # secretVolumeMounts:
+  # - secretName: example-secret-name
+  #   mountPath: /example/path
+  #   resourceVersion: "11111111"
+  # configMapVolumeMounts:
+  # - configMapName: example-config-map-name
+  #   mountPath: /example/path
+  #   resourceVersion: "11111111"
+  # command:
+  # - /bin/bash
+  # - -c
+  # - 'echo "Hello World!"'
+  # args:
+  # - --arg1
+  # - --arg2
+  # volumes:
+  # - name: tmp
+  #   emptyDir: {}
+  # volumeMounts:
+  # - mountPath: /tmp
+  #   name: tmp
+  # securityContext:
+  #   fsGroup: 2
+
+autoscaling:
+  enabled: false
+  mode: hpa
+  hpa:
+    minReplicas: 2
+    maxReplicas: 12
+    targetCPUUtilizationPercentage: 75
+    # targetMemoryUtilizationPercentage: 75
+    # customMetrics:
+    #   - type: Resource
+    #   resource:
+    #     name: memory
+    #     targetAverageUtilization: {{ . }}
+    # behavior:
+    #   scaleDown:
+    #     stabilizationWindowSeconds: 300
+    #     policies:
+    #     - type: Percent
+    #       value: 100
+    #       periodSeconds: 15
+    #   scaleUp:
+    #     stabilizationWindowSeconds: 0
+    #     policies:
+    #     - type: Percent
+    #       value: 100
+    #       periodSeconds: 15
+    #     - type: Pods
+    #       value: 4
+    #       periodSeconds: 15
+    #     selectPolicy: Max
+  vpa:
+    updateMode: 'Off'
+
+service:
+  enabled: true
+  type: ClusterIP
+  port:
+    name: http
+    externalPort: 8080
+    internalPort: 8080
+
+ingress:
+  enabled: true
+  hosts:
+    - example-system.example.com
+  path: /
+  annotations:
+    kubernetes.io/ingress.class: nginx
+
+podDisruptionBudget:
+  enabled: true
+  spec:
+    # minAvailable: 0
+    maxUnavailable: "50%"

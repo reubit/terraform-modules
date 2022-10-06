@@ -1,0 +1,184 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    release: {{ .Release.Name }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+  annotations:
+{{- with .Values.deployment.annotations }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+{{ include "app.commonlabels" . | indent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.deployment.replicaCount }}
+{{- end }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+{{ toYaml .Values.deployment.rollingUpdate | indent 6 }}
+  selector:
+    matchLabels:
+      app: {{ template "fullname" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        release: {{ .Release.Name }}
+        chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+{{ include "app.commonlabels" . | indent 8 }}
+{{- with .Values.deployment.podLabels }}
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- if or .Values.deployment.podAnnotations .Values.deployment.secretVolumeMounts .Values.deployment.configMapVolumeMounts }}
+      annotations:
+{{- end }}
+{{- with .Values.deployment.podAnnotations }}
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.deployment.secretVolumeMounts }}
+        {{- range . }}
+        secret-version/{{ .secretName }}: {{ default "11111111" .resourceVersion | quote }}
+        {{- end }}
+{{- end }}
+{{- with .Values.deployment.configMapVolumeMounts }}
+        {{- range . }}
+        configmap-version/{{ .configMapName }}: {{ default "11111111" .resourceVersion | quote }}
+        {{- end }}
+{{- end }}
+    spec:
+{{- if .Values.deployment.serviceAccountName }}
+      serviceAccountName: {{ .Values.deployment.serviceAccountName }}
+{{- end }}
+      {{- with .Values.deployment.podAntiAffinity }}
+      {{- if or .preferred.node.enabled .preferred.zone.enabled .preferred.custom .required.node.enabled .required.custom }}
+      affinity:
+        podAntiAffinity:
+      {{- end }}
+      {{- end }}
+          {{- with .Values.deployment.podAntiAffinity.preferred }}
+          {{- if or .node.enabled .zone.enabled .custom }}
+          preferredDuringSchedulingIgnoredDuringExecution:
+          {{- end }}
+          {{- end }}
+          {{- if .Values.deployment.podAntiAffinity.preferred.node.enabled }}
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: {{ template "fullname" . }}
+                  release: {{ .Release.Name }}
+              topologyKey: kubernetes.io/hostname
+            weight: {{ .Values.deployment.podAntiAffinity.preferred.node.weight }}
+          {{- end }}
+          {{- if .Values.deployment.podAntiAffinity.preferred.zone.enabled }}
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: {{ template "fullname" . }}
+                  release: {{ .Release.Name }}
+              topologyKey: topology.kubernetes.io/zone
+            weight: {{ .Values.deployment.podAntiAffinity.preferred.zone.weight }}
+          {{- end }}
+          {{- with .Values.deployment.podAntiAffinity.preferred.custom }}{{ toYaml . | trim | nindent 10 }}{{ end }}
+          {{- with .Values.deployment.podAntiAffinity.required }}
+          {{- if or .node.enabled .custom }}
+          requiredDuringSchedulingIgnoredDuringExecution:
+          {{- end }}
+          {{- end }}
+          {{- if .Values.deployment.podAntiAffinity.required.node.enabled }}
+            - topologyKey: "kubernetes.io/hostname"
+              labelSelector:
+                matchLabels:
+                  app: {{ template "fullname" . }}
+                  release: {{ .Release.Name }}
+          {{- end }}
+          {{- with .Values.deployment.podAntiAffinity.required.custom }}{{ toYaml . | trim | nindent 10 }}{{ end }}
+      containers:
+        - name: {{ template "name" . }}
+          image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}"
+          imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
+          {{- with .Values.deployment.environmentVariables }}
+          env:
+          {{- range $key, $value := . }}
+          - name: {{ $key }}
+            value: "{{ $value }}"  
+          {{- end }}
+          {{- end }}
+          ports:
+            - containerPort: {{ .Values.service.port.internalPort }}
+{{- if .Values.deployment.workingDir }}
+          workingDir: {{ .Values.deployment.workingDir }}
+{{- end }}
+{{- with .Values.deployment.command }}
+          command:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.deployment.args }}
+          args:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- if .Values.deployment.livenessProbeEnabled }}
+{{- with .Values.deployment.livenessProbe }}
+          livenessProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- end }}
+{{- if .Values.deployment.readinessProbeEnabled }}
+{{- with .Values.deployment.readinessProbe }}
+          readinessProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- end }}
+          resources:
+{{ toYaml .Values.deployment.resources | indent 12 }}
+{{- if or .Values.deployment.secretVolumeMounts .Values.deployment.configMapVolumeMounts .Values.deployment.volumeMounts }}
+          volumeMounts:
+{{- end }}
+{{- if .Values.deployment.volumeMounts }}
+{{ toYaml .Values.deployment.volumeMounts | indent 10 }}
+{{- end }}
+{{- with .Values.deployment.secretVolumeMounts }}
+          {{- range . }}
+          - name: secret-{{ .secretName }}
+            mountPath: "{{ .mountPath }}"
+            readOnly: true
+          {{- end }}
+{{- end }}
+{{- with .Values.deployment.configMapVolumeMounts }}
+          {{- range . }}
+          - name: configmap-{{ .configMapName }}
+            mountPath: "{{ .mountPath }}"
+            readOnly: true
+          {{- end }}
+{{- end }}
+{{- if .Values.deployment.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.deployment.nodeSelector | indent 8 }}
+{{- end }}
+{{- if .Values.deployment.securityContext }}
+      securityContext:
+{{ toYaml .Values.deployment.securityContext | indent 8 }}
+{{- end }}
+{{- if or .Values.deployment.secretVolumeMounts .Values.deployment.configMapVolumeMounts .Values.deployment.volumes }}
+      volumes:
+{{- end }}
+{{- if .Values.deployment.volumes }}
+{{ toYaml .Values.deployment.volumes | indent 6 }}
+{{- end }}
+{{- with .Values.deployment.secretVolumeMounts }}
+      {{- range . }}
+      - name: secret-{{ .secretName }}
+        secret:
+          secretName: {{ .secretName }}
+      {{- end }}
+{{- end }}
+{{- with .Values.deployment.configMapVolumeMounts }}
+      {{- range . }}
+      - name: configmap-{{ .configMapName }}
+        configMap:
+          name: {{ .configMapName }}
+      {{- end }}
+{{- end }}

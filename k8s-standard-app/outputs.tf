@@ -30,3 +30,6 @@ output "service_account_name" {
   value = local.service_account_name
 }
 
+output "iam_role_name" {
+  value = local.iam_role_name
+}

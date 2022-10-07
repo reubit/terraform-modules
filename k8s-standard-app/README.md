@@ -79,6 +79,7 @@ All of the following variables are optional, each with pre-defined sane defaults
 | `memory_limit`                                | string | `"128Mi"`                                     |
 | `environment_variables`                       | map    | `{}`                                          |
 | `working_dir`                                 | string | `""`                                          |
+| `iam_role_create`                             | bool   | `true`                                        |
 | `iam_role_name`                               | string | `""`                                          |
 | `iam_role_kube2iam_enabled`                   | string | `"false"`                                     |
 | `iam_role_service_accounts_enabled`           | string | `"true"`                                      |

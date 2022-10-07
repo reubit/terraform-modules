@@ -30,6 +30,10 @@ variable "working_dir" {
   default = ""
 }
 
+variable "iam_role_create" {
+  default = true
+}
+
 variable "iam_role_name" {
   default = ""
 }

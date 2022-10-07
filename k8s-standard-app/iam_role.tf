@@ -1,5 +1,5 @@
 module "aws-iam-role-k8s" {
-  source = "git:https://github.com/reubit/terraform-modules.git//aws-iam-role-k8s"
+  source = "git::https://github.com/reubit/terraform-modules.git//aws-iam-role-k8s"
 
   count = var.iam_role_create ? 1 : 0
 

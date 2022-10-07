@@ -11,7 +11,7 @@ locals {
   ]
 
   # Generate 'aws_resource_name_hash' based on sha256 of all name parts, concatenated at 7 chars
-  aws_resource_name_hash = substr(sha256(join("|", compact(concat(local.k8s_long_name_parts,local.app_instance)))), 0, 7)
+  aws_resource_name_hash = substr(sha256(join("|", compact(concat(local.k8s_long_name_parts,[local.app_instance])))), 0, 7)
 
   # Define 'k8s_short_name_parts' used to compose 'k8s_short_name'.
   # Remove non-alphanumeric characters. Truncate env at 24 chars and parts at 3 chars. Append 'k8s_resource_name_hash' for uniqueness

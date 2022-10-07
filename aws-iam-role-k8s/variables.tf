@@ -23,10 +23,6 @@ variable "eks_cluster_cfn_export_name" {
   default = "cp-core-eks-cluster::ClusterName"
 }
 
-variable "eks_cluster_name" {
-  default = ""
-}
-
 variable "assume_role_policy_ec2_enabled" {
   default = "false"
 }

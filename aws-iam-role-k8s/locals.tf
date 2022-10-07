@@ -85,7 +85,6 @@ locals {
   }
 
   k8s_service_name            = var.k8s_service_name != "" ? var.k8s_service_name : module.resource_names.k8s_resource
-  eks_cluster_name            = var.eks_cluster_name != "" ? var.eks_cluster_name : join("", data.aws_cloudformation_export.eks_cluster_name.*.value)
   eks_oidc_issuer_url         = join("", data.aws_eks_cluster.cluster.*.identity.0.oidc.0.issuer)
   eks_oidc_issuer             = replace(local.eks_oidc_issuer_url, "https://", "")
   openid_connect_provider_arn = "arn:aws:iam::${local.aws_account_id}:oidc-provider/${local.eks_oidc_issuer}"

@@ -3,17 +3,12 @@ data "aws_caller_identity" "current" {
 
 data "aws_eks_cluster" "cluster" {
   count = var.assume_role_policy_iam_for_sa_enabled ? 1 : 0
-  name  = local.eks_cluster_name
+  name  = local.k8s_cluster_name
 }
 
 data "aws_cloudformation_export" "nodegroup_role" {
   count = var.assume_role_policy_kube2iam_enabled ? 1 : 0
   name  = var.node_role_cfn_export_name
-}
-
-data "aws_cloudformation_export" "eks_cluster_name" {
-  count = var.eks_cluster_name == "" ? 1 : 0
-  name  = var.eks_cluster_cfn_export_name
 }
 
 data "aws_iam_policy_document" "assume_role_policy_ec2" {

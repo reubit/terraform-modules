@@ -148,8 +148,8 @@ locals {
     "prometheus.io/port"                         = local.prometheus_port
     "prometheus.io/path"                         = var.prometheus_metrics_path
     "iam.amazonaws.com/role"                     = var.iam_role_kube2iam_enabled ? local.iam_role_name : ""
-    "${var.app_owner_domain}/gitlab-project-id"  = lookup(var.common_variables, "gitlab_project_id", "")
-    "${var.app_owner_domain}/gitlab-project-url" = lookup(var.common_variables, "gitlab_project_url", "")
+    "${local.app_owner_domain}/gitlab-project-id"  = lookup(var.common_variables, "gitlab_project_id", "")
+    "${local.app_owner_domain}/gitlab-project-url" = lookup(var.common_variables, "gitlab_project_url", "")
   }
 
   # Pod annotations for sending prometheus metrics to datadog

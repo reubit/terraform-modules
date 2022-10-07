@@ -140,7 +140,7 @@ locals {
   # Merge final map of deployment annotations
   deployment_annotations_json = jsonencode(merge(local.default_deployment_annotations,var.custom_deployment_annotations))
 
-  iam_role_name   = var.iam_role_name != "" ? var.iam_role_name : (var.iam_role_create ? module.aws-iam-role-k8s.name : "")
+  iam_role_name   = var.iam_role_name != "" ? var.iam_role_name : (var.iam_role_create ? module.aws-iam-role-k8s[0].name : "")
   prometheus_port = var.prometheus_metrics_port != "" ? var.prometheus_metrics_port : var.service_port
 
   default_pod_annotations = {

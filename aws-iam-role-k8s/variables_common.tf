@@ -35,6 +35,10 @@ variable "app_aws_domain" {
   default = ""
 }
 
+variable "app_owner_domain" {
+  default = ""
+}
+
 variable "app_team" {
   default = ""
 }

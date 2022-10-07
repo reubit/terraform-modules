@@ -17,8 +17,8 @@ locals {
   app_instance               = var.app_instance != "" ? var.app_instance : lookup(var.common_variables, "app_instance", "default")
   docker_image_repo          = var.docker_image_repo != "" ? var.docker_image_repo : var.common_variables["docker_image_repo"]
   docker_image_tag           = var.docker_image_tag != "" ? var.docker_image_tag : var.common_variables["docker_image_tag"]
-  ingress_path               = var.ingress_path != "" ? var.ingress_path : (var.common_variables["ingress_path"] != "" ? var.common_variables["ingress_path"] : "/${local.component}/")
-  ingress_host               = var.ingress_host != "" ? var.ingress_host : (var.common_variables["ingress_host"] != "" ? var.common_variables["ingress_host"] : "${local.system}-${local.environment}")
+  ingress_path               = var.ingress_path != "" ? var.ingress_path : (var.common_variables["ingress_path"] != "" ? var.common_variables["ingress_path"] : "/${local.app_component}/")
+  ingress_host               = var.ingress_host != "" ? var.ingress_host : (var.common_variables["ingress_host"] != "" ? var.common_variables["ingress_host"] : "${local.app_product}-${local.app_system}-${local.app_environment}")
   ingress_dns_zone           = var.ingress_dns_zone != "" ? var.ingress_dns_zone : var.common_variables["ingress_dns_zone"]
   gitlab_project_id          = var.gitlab_project_id != "" ? var.gitlab_project_id : var.common_variables["gitlab_project_id"]
   gitlab_project_url         = var.gitlab_project_url != "" ? var.gitlab_project_url : var.common_variables["gitlab_project_url"]
@@ -32,4 +32,3 @@ locals {
 
   is_non_prod = local.app_environment != "prod" ? "true" : "false"
 }
-

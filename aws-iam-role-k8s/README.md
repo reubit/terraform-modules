@@ -72,13 +72,11 @@ All of the following variables are optional, each with pre-defined sane defaults
 
 | Variable Name                               | Type   | Default Value                                      |
 | ------------------------------------------- | ------ | -------------------------------------------------- |
-| `purpose`                                   | string | `""`                                               |
 | `name_override`                             | string | `""`                                               |
 | `path`                                      | string | `"/"`                                              |
 | `assume_role_policy_ec2_enabled`            | bool   | `"false"`                                          |
 | `assume_role_policy_kube2iam_enabled`       | bool   | `"false"`                                          |
 | `assume_role_policy_iam_for_sa_enabled`     | bool   | `"true"`                                           |
-| `eks_cluster_cfn_export_name`               | int    | `"cp-core-eks-cluster::ClusterName"`               |
 | `k8s_service_name`                          | int    | *derived from common_variables*                    |
 | `node_role_cfn_export_name`                 | string | `"cp-core-eks-nodegroup-default-NodeInstanceRole"` |
 

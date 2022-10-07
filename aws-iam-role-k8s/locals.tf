@@ -94,19 +94,6 @@ locals {
   assume_role_policy_kube2iam_json   = var.assume_role_policy_kube2iam_enabled ? data.aws_iam_policy_document.assume_role_policy_kube2iam.json : local.assume_role_policy_blank_json
   assume_role_policy_iam_for_sa_json = var.assume_role_policy_iam_for_sa_enabled ? data.aws_iam_policy_document.assume_role_policy_iam_for_sa.json : local.assume_role_policy_blank_json
 
-  default_role_name_parts = [
-    local.app_product,
-    local.app_team,
-    local.app_system,
-    local.app_component,
-    local.app_instance != "default" ? local.app_instance : "",
-    var.purpose,
-    local.app_environment,
-  ]
-
-  # Compose 'default_role_name' compacted parts, delimited by '.'
-  default_role_name = join(".", compact(local.default_role_name_parts))
-
-  # Set role_name to 'var.name_override' if set, otherwise use default name patter
-  role_name = var.name_override != "" ? var.name_override : local.default_role_name
+  # Set role_name to 'var.name_override' if set, otherwise use default name pattern
+  role_name = var.name_override != "" ? var.name_override : module.resource_names.aws_dot_delimited
 }

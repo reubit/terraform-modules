@@ -1,8 +1,3 @@
-variable "purpose" {
-  type    = string
-  default = ""
-}
-
 variable "name_override" {
   default = ""
 }
@@ -17,10 +12,6 @@ variable "k8s_service_name" {
 
 variable "node_role_cfn_export_name" {
   default = "cp-core-eks-nodegroup-default-NodeInstanceRole"
-}
-
-variable "eks_cluster_cfn_export_name" {
-  default = "cp-core-eks-cluster::ClusterName"
 }
 
 variable "assume_role_policy_ec2_enabled" {

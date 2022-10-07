@@ -203,7 +203,7 @@ variable "helm_release_timeout" {
 }
 
 variable "helm_release_atomic" {
-  default = "true"
+  default = "false"
 }
 
 variable "fargate_enabled" {

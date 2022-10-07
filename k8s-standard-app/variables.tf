@@ -23,7 +23,8 @@ variable "memory_limit" {
 }
 
 variable "environment_variables" {
-  default = {}
+  default   = {}
+  sensitive = true
 }
 
 variable "working_dir" {

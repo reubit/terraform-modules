@@ -11,7 +11,7 @@ locals {
   ]
 
   # Generate 'aws_resource_name_hash' based on sha256 of all name parts, concatenated at 7 chars
-  aws_resource_name_hash = substr(sha256(join("/", compact(concat(local.k8s_long_name_parts,local.app_instance)))), 0, 7)
+  aws_resource_name_hash = substr(sha256(join("|", compact(concat(local.k8s_long_name_parts,local.app_instance)))), 0, 7)
 
   # Define 'k8s_short_name_parts' used to compose 'k8s_short_name'.
   # Remove non-alphanumeric characters. Truncate env at 24 chars and parts at 3 chars. Append 'k8s_resource_name_hash' for uniqueness
@@ -25,15 +25,19 @@ locals {
     local.k8s_resource_name_hash,
   ]
 
-  # Dot delimited name variant (IAM, Kinesis, S3, DynamoDB etc) - Use long name if <63 chars, otherwise use short name
-  aws_dot_delimited_long  = join(".", compact(local.aws_long_name_parts))
-  aws_dot_delimited_short = join(".", compact(local.aws_short_name_parts))
-  aws_dot_delimited = length(local.aws_dot_delimited_long) <= 63 ? local.aws_dot_delimited_long : local.aws_dot_delimited_short
+  #  Use long name if <63 chars, otherwise use short name
+  aws_base_name_long  = join("|", compact(local.aws_long_name_parts))
+  aws_base_name_short = join("|", compact(local.aws_short_name_parts))
+  aws_base_name = length(local.aws_base_name_long) <= 63 ? local.aws_base_name_long : local.aws_base_name_short
 
-  # Dash delimited name variant (RDS, Elasticache, etc) - Use long name if <63 chars, otherwise use short name
-  aws_dash_delimited_long  = join("-", compact(local.aws_long_name_parts))
-  aws_dash_delimited_short = join("-", compact(local.aws_short_name_parts))
-  aws_dash_delimited = length(local.aws_dash_delimited_long) <= 63 ? local.aws_dash_delimited_long : local.aws_dash_delimited_short
+  # Dash delimited name variant (RDS, Elasticache, etc)
+  aws_dash_delimited  = replace(local.aws_base_name, "|", "-")
+
+  # Dot delimited name variant (IAM, Kinesis, S3, DynamoDB etc)
+  aws_dot_delimited   = replace(local.aws_base_name, "|", ".")
+
+  # Slash delimited name variant (Secrets Manager, SSM parameter store, etc)
+  aws_slash_delimited = replace(local.aws_base_name, "|", "/")
 
   # Define default aws tags dictionary
   aws_tags = {

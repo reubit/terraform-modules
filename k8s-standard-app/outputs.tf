@@ -33,3 +33,7 @@ output "service_account_name" {
 output "iam_role_name" {
   value = local.iam_role_name
 }
+
+output "resource_names" {
+  value = module.resource_names
+}

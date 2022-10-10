@@ -39,6 +39,9 @@ locals {
   # Slash delimited name variant (Secrets Manager, SSM parameter store, etc)
   aws_slash_delimited = replace(local.aws_base_name, "|", "/")
 
+  # S3 Bucket Name. Prefix 'aws_dot_delimited' with ORG
+  aws_s3_bucket = "${local.app_org}.${local.aws_dot_delimited}"
+
   # Define default aws tags dictionary
   aws_tags = {
     "app_environment"            = local.app_environment

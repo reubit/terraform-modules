@@ -18,6 +18,10 @@ output "aws_slash_delimited" {
   value = local.aws_slash_delimited
 }
 
+output "aws_s3_bucket" {
+  value = local.aws_s3_bucket
+}
+
 output "aws_tags" {
   value = local.aws_tags
 }

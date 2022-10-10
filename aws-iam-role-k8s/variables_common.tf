@@ -23,6 +23,10 @@ variable "k8s_namespace" {
   default = ""
 }
 
+variable "app_org" {
+  default = ""
+}
+
 variable "app_realm" {
   default = ""
 }

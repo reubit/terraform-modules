@@ -4,6 +4,7 @@ locals {
   aws_account_name           = var.aws_account_name != "" ? var.aws_account_name : var.common_variables["aws_account_name"]
   k8s_cluster_name           = var.k8s_cluster_name != "" ? var.k8s_cluster_name : lookup(var.common_variables, "k8s_cluster_name", "eks-${local.aws_account_name}")
   k8s_namespace              = var.k8s_namespace != "" ? var.k8s_namespace : lookup(var.common_variables,"k8s_namespace","${var.app_team}-${var.app_static_environment}")
+  app_org                    = var.app_org != "" ? var.app_realm : var.common_variables["app_org"]
   app_realm                  = var.app_realm != "" ? var.app_realm : var.common_variables["app_realm"]
   app_account                = var.app_account != "" ? var.app_account : var.common_variables["app_account"]
   app_aws_domain             = var.app_aws_domain != "" ? var.app_aws_domain : var.common_variables["app_aws_domain"]
@@ -38,6 +39,7 @@ locals {
     "aws_account_name"           = local.aws_account_name
     "k8s_cluster_name"           = local.k8s_cluster_name
     "k8s_namespace"              = local.k8s_namespace
+    "app_org"                    = local.app_org
     "app_realm"                  = local.app_realm
     "app_account"                = local.app_account
     "app_aws_domain"             = local.app_aws_domain

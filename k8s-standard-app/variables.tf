@@ -6,6 +6,14 @@ variable "replica_count" {
   default = "1"
 }
 
+variable "max_surge" {
+  default = "2"
+}
+
+variable "max_unavailable" {
+  default = "0"
+}
+
 variable "cpu_request" {
   default = "100m"
 }
@@ -260,4 +268,8 @@ variable "container_args" {
 
 variable "security_context_json" {
   default = "{}"
+}
+
+variable "create_namespace" {
+  default = true
 }

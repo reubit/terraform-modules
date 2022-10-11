@@ -237,6 +237,9 @@ deployment:
   args: ${jsonencode(var.container_args)}
   annotations: ${local.deployment_annotations_json}
   replicaCount: ${var.replica_count}
+  rollingUpdate:
+    maxSurge: ${var.max_surge}
+    maxUnavailable: ${var.max_unavailable}
   image:
     pullPolicy: IfNotPresent
   environmentVariables: ${jsonencode(local.environment_variables)}

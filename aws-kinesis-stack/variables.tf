@@ -1,4 +1,7 @@
-variable "app_module_outputs" {
+variable "app_resource_names" {
+}
+
+variable "app_iam_role_name" {
 }
 
 variable "s3_bucket_arn" {

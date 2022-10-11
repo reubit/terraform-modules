@@ -1,6 +1,6 @@
 resource "aws_iam_role_policy" "twitter_source_kinesis_policy" {
   name = "kinesis_policy"
-  role = var.app_module_outputs["iam_role_name"]
+  role = var.app_iam_role_name
 
   policy = <<EOF
 {

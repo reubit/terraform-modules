@@ -1,6 +1,6 @@
 resource "aws_iam_role" "twitter_source_firehose" {
   count = local.app_environment == local.app_static_environment ? 1 : 0
-  name  = "${var.app_resource_name.aws_dot_delimited}.firehose"
+  name  = "${var.app_resource_names.aws_dot_delimited}.firehose"
 
   assume_role_policy = <<EOF
 {

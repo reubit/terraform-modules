@@ -1,6 +1,6 @@
 resource "aws_kinesis_firehose_delivery_stream" "twitter_source" {
   count       = local.app_environment == local.app_static_environment ? 1 : 0
-  name        = var.app_resource_name.aws_dot_delimited
+  name        = var.app_resource_names.aws_dot_delimited
   destination = "extended_s3"
 
   extended_s3_configuration {

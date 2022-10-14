@@ -2,6 +2,10 @@ output "kinesis_stream_name" {
   value = aws_kinesis_stream.twitter_source.name
 }
 
+output "kinesis_stream_arn" {
+  value = aws_kinesis_stream.twitter_source.arn
+}
+
 output "kinesis_firehose_stream_name" {
   value = local.app_environment == local.app_static_environment ? aws_kinesis_firehose_delivery_stream.twitter_source[0].name : ""
 }

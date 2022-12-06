@@ -14,7 +14,7 @@ data "aws_subnets" "subnets" {
 
   filter {
     name   = "tag:Name"
-    values = ["*${var.k8s_cluster_name}*Private"]
+    values = ["*${var.k8s_cluster_name}*Private*"]
   }
 }
 

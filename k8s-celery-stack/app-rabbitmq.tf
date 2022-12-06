@@ -4,7 +4,7 @@ resource "helm_release" "app-rabbitmq" {
   name      = "${module.resource_names.helm_release}-rabbitmq"
   chart     = "stable/rabbitmq"
   version   = "6.4.2"
-  namespace = local.namespace
+  namespace = local.k8s_namespace
 
   values = [
     <<VALUES

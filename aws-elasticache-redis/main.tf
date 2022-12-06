@@ -10,7 +10,7 @@ resource "aws_security_group" "redis_security_group" {
 
   name        = module.resource_names.aws_dot_delimited
   description = module.resource_names.aws_dot_delimited
-  vpc_id      = data.aws_vpcs.vpc.0.ids[0]
+  vpc_id      = data.aws_eks_cluster.cluster[0].vpc_config[0].vpc_id
 }
 
 resource "aws_security_group_rule" "redis_ingress" {

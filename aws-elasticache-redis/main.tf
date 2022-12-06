@@ -20,7 +20,7 @@ resource "aws_security_group_rule" "redis_ingress" {
   from_port                = var.redis_port
   to_port                  = var.redis_port
   protocol                 = "tcp"
-  source_security_group_id = data.aws_eks_cluster.cluster[0].vpc_config.cluster_security_group_id
+  source_security_group_id = data.aws_eks_cluster.cluster[0].vpc_config[0].cluster_security_group_id
   security_group_id        = aws_security_group.redis_security_group[0].id
 }
 

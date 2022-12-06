@@ -83,7 +83,7 @@ locals {
   default_environment_variables = {
     K8S_RESOURCE_NAME     = module.resource_names.k8s_resource
     K8S_NAMESPACE         = local.k8s_namespace
-    API_BASE_URL          = "https://${local.ingress_host}.${local.ingress_host_dns_zone}${local.ingress_path}${var.api_ingress_sub_path}"
+    API_BASE_URL          = "https://${local.ingress_host}.${local.ingress_dns_zone}${local.ingress_path}${var.api_ingress_sub_path}"
     API_PREFIX            = "${local.ingress_path}${var.api_ingress_sub_path}"
     LOGLEVEL              = var.log_level
     REDIS_HOST            = local.redis_host

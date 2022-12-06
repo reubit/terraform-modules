@@ -1,17 +1,16 @@
 resource "kubernetes_service_account" "service_account" {
   metadata {
     name      = module.resource_names.k8s_resource
-    namespace = local.namespace
+    namespace = local.k8s_namespace
     annotations = {
       "eks.amazonaws.com/role-arn" = var.iam_role_service_accounts_enabled ? "arn:aws:iam::${local.aws_account_id}:role/${local.iam_role_name}" : ""
     }
     labels = {
-      "phx_environment" = local.environment
-      "phx_team"        = local.team
-      "phx_country"     = local.country
-      "phx_sport"       = local.sport
-      "phx_system"      = local.system
-      "phx_component"   = local.component
+      "app_environment" = local.app_environment
+      "app_team"        = local.app_team
+      "app_product"     = local.app_product
+      "app_system"      = local.app_system
+      "app_component"   = local.app_component
     }
   }
 
@@ -21,7 +20,7 @@ resource "kubernetes_service_account" "service_account" {
 resource "kubernetes_role" "role" {
   metadata {
     name      = module.resource_names.k8s_resource
-    namespace = local.namespace
+    namespace = local.k8s_namespace
   }
 
   rule {
@@ -46,7 +45,7 @@ resource "kubernetes_role" "role" {
 resource "kubernetes_role_binding" "role_binding" {
   metadata {
     name      = module.resource_names.k8s_resource
-    namespace = local.namespace
+    namespace = local.k8s_namespace
   }
 
   role_ref {
@@ -58,7 +57,7 @@ resource "kubernetes_role_binding" "role_binding" {
   subject {
     kind      = "ServiceAccount"
     name      = kubernetes_service_account.service_account.metadata[0].name
-    namespace = local.namespace
+    namespace = local.k8s_namespace
   }
 }
 

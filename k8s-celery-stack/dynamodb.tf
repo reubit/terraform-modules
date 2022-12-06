@@ -22,8 +22,6 @@ resource "aws_dynamodb_table" "celery_results_table" {
     update = "1h"
     delete = "1h"
   }
-
-  tags = local.aws_tags
 }
 
 resource "aws_iam_role_policy" "dynamodb_celery_results_policy" {

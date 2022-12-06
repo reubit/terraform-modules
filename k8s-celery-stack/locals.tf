@@ -65,6 +65,7 @@ locals {
     "gitlab_pipeline_user_email" = local.gitlab_pipeline_user_email
   }
 
+  iam_role_name = var.iam_role_name != "" ? var.iam_role_name : (var.iam_role_create ? module.aws-iam-role-k8s[0].name : "")
   dynamodb_name = "${module.resource_names.aws_dot_delimited}.celery-results"
   rabbitmq_name = "${module.resource_names.k8s_resource}-rabbitmq"
   redis_host    = module.redis.primary_endpoint_address
@@ -81,7 +82,7 @@ locals {
 
   default_environment_variables = {
     K8S_RESOURCE_NAME     = module.resource_names.k8s_resource
-    K8S_NAMESPACE         = local.namespace
+    K8S_NAMESPACE         = local.k8s_namespace
     API_BASE_URL          = "https://${local.ingress_host}.${local.ingress_host_dns_zone}${local.ingress_path}${var.api_ingress_sub_path}"
     API_PREFIX            = "${local.ingress_path}${var.api_ingress_sub_path}"
     LOGLEVEL              = var.log_level
@@ -119,8 +120,8 @@ locals {
   celery_worker_command = ["celery -A ${var.celery_app_name} worker --loglevel=${var.log_level}"]
   worker_container_args = concat(local.celery_worker_command, var.worker_celery_args)
 
-  default_api_min_replicas    = local.static_environment == "dev" ? 1 : 3
-  default_worker_min_replicas = local.static_environment == "dev" ? 1 : 2
+  default_api_min_replicas    = local.app_static_environment == "dev" ? 1 : 3
+  default_worker_min_replicas = local.app_static_environment == "dev" ? 1 : 2
 
   api_min_replicas    = var.api_min_replicas != "" ? var.api_min_replicas : local.default_api_min_replicas
   worker_min_replicas = var.worker_min_replicas != "" ? var.worker_min_replicas : local.default_worker_min_replicas

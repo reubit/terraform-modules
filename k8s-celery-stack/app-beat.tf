@@ -6,7 +6,7 @@ module "beat" {
   # Common variables provided by the pipeline (aws context, project metadata, environment, image tag, etc)
   common_variables = local.common_variables
 
-  instance = "beat"
+  app_instance = "beat"
 
   # Deployment specific resources
   cpu_request    = "100m"

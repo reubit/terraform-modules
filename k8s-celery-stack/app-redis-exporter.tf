@@ -9,7 +9,7 @@ module "redis-exporter" {
   docker_image_repo = "oliver006/redis_exporter"
   docker_image_tag  = "v1.11.1"
 
-  instance = "redis-exporter"
+  app_instance = "redis-exporter"
 
   # Deployment specific resources
   cpu_request    = "100m"
@@ -28,8 +28,6 @@ module "redis-exporter" {
   period_seconds        = "30"
   datadog_metrics_list  = ["redis_*"]
   security_context_json = var.security_context_json
-
-  k8s_resource_prepend_static_environment = var.k8s_resource_prepend_static_environment
 
   # Deployment specific environment variables
   environment_variables = {

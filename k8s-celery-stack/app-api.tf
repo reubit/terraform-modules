@@ -6,7 +6,7 @@ module "api" {
   # Common variables provided by the pipeline (aws context, project metadata, environment, image tag, etc)
   common_variables = local.common_variables
 
-  instance = "api"
+  app_instance = "api"
 
   # Deployment specific resources
   cpu_request    = var.api_cpu_request

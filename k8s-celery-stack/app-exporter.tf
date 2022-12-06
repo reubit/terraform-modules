@@ -9,7 +9,7 @@ module "exporter" {
   docker_image_repo = "ovalmoney/celery-exporter"
   docker_image_tag  = "1.4.0"
 
-  instance = "exporter"
+  app_instance = "exporter"
 
   # Deployment specific resources
   cpu_request    = "100m"
@@ -28,8 +28,6 @@ module "exporter" {
   period_seconds        = "30"
   datadog_metrics_list  = ["celery_*"]
   security_context_json = var.security_context_json
-
-  k8s_resource_prepend_static_environment = var.k8s_resource_prepend_static_environment
 
   # Deployment specific environment variables
   environment_variables = {

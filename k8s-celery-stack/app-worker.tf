@@ -6,7 +6,7 @@ module "worker" {
   # Common variables provided by the pipeline (aws context, project metadata, environment, image tag, etc)
   common_variables = local.common_variables
 
-  instance = "worker"
+  app_instance = "worker"
 
   # Deployment specific resources
   cpu_request    = var.worker_cpu_request
@@ -39,7 +39,5 @@ module "worker" {
   security_context_json             = var.security_context_json
   otel_exporter_otlp_endpoint       = var.otel_exporter_otlp_endpoint
   otel_python_flask_excluded_urls   = var.otel_python_flask_excluded_urls
-
-  k8s_resource_prepend_static_environment = var.k8s_resource_prepend_static_environment
 }
 

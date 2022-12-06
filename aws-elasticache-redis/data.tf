@@ -9,7 +9,7 @@ data "aws_subnets" "subnets" {
 
   filter {
     name   = "vpc-id"
-    values = data.aws_eks_cluster.cluster[0].vpc_config[0].vpc_id
+    values = [data.aws_eks_cluster.cluster[0].vpc_config[0].vpc_id]
   }
 
   filter {

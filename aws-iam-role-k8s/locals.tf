@@ -31,8 +31,6 @@ locals {
   gitlab_pipeline_user_name  = var.gitlab_pipeline_user_name != "" ? var.gitlab_pipeline_user_name : var.common_variables["gitlab_pipeline_user_name"]
   gitlab_pipeline_user_email = var.gitlab_pipeline_user_email != "" ? var.gitlab_pipeline_user_email : var.common_variables["gitlab_pipeline_user_email"]
 
-  is_non_prod = local.app_environment != "prod" ? "true" : "false"
-
   common_variables = {
     "aws_region"                 = local.aws_region
     "aws_account_id"             = local.aws_account_id
@@ -56,25 +54,6 @@ locals {
     "ingress_path"               = local.ingress_path
     "ingress_host"               = local.ingress_host
     "ingress_dns_zone"           = local.ingress_dns_zone
-    "gitlab_project_id"          = local.gitlab_project_id
-    "gitlab_project_url"         = local.gitlab_project_url
-    "gitlab_commit_ref_name"     = local.gitlab_commit_ref_name
-    "gitlab_commit_sha"          = local.gitlab_commit_sha
-    "gitlab_pipeline_id"         = local.gitlab_pipeline_id
-    "gitlab_pipeline_url"        = local.gitlab_pipeline_url
-    "gitlab_pipeline_user_login" = local.gitlab_pipeline_user_login
-    "gitlab_pipeline_user_name"  = local.gitlab_pipeline_user_name
-    "gitlab_pipeline_user_email" = local.gitlab_pipeline_user_email
-  }
-
-  aws_tags = {
-    "app_environment"            = local.app_environment
-    "app_static_environment"     = local.app_static_environment
-    "app_team"                   = local.app_team
-    "app_product"                = local.app_product
-    "app_system"                 = local.app_system
-    "app_component"              = local.app_component
-    "app_instance"               = local.app_instance
     "gitlab_project_id"          = local.gitlab_project_id
     "gitlab_project_url"         = local.gitlab_project_url
     "gitlab_commit_ref_name"     = local.gitlab_commit_ref_name

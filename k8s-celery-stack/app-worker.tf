@@ -23,7 +23,7 @@ module "worker" {
   ingress_enabled                   = "false"
   fargate_enabled                   = var.worker_fargate_enabled
   iam_role_name                     = local.iam_role_name
-  iam_role_create                   = var.iam_role_create
+  iam_role_create                   = false
   iam_role_service_accounts_enabled = var.iam_role_service_accounts_enabled
   iam_role_kube2iam_enabled         = var.iam_role_kube2iam_enabled
   service_account_create            = "false"

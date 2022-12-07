@@ -77,11 +77,11 @@ variable "dynamodb_table_enabled" {
 }
 
 variable "dynamodb_table_read_capacity" {
-  default = "1"
+  default = "20"
 }
 
 variable "dynamodb_table_write_capacity" {
-  default = "1"
+  default = "20"
 }
 
 variable "dynamodb_table_ttl_seconds" {

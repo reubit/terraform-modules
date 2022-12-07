@@ -134,15 +134,15 @@ variable "worker_max_replicas" {
 }
 
 variable "worker_memory_request" {
-  default = "1Gi"
+  default = "2Gi"
 }
 
 variable "worker_memory_limit" {
-  default = "1Gi"
+  default = "2Gi"
 }
 
 variable "worker_cpu_request" {
-  default = "250m"
+  default = "1"
 }
 
 variable "worker_cpu_limit" {

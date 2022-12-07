@@ -44,11 +44,11 @@ variable "api_cpu_limit" {
 }
 
 variable "api_ingress_sub_path" {
-  default = "api"
+  default = ""
 }
 
 variable "api_ingress_rewrite_target_enabled" {
-  default = "true"
+  default = "false"
 }
 
 variable "api_custom_pod_annotations" {
@@ -105,7 +105,7 @@ variable "flower_ingress_sub_path" {
 }
 
 variable "flower_ingress_rewrite_target_enabled" {
-  default = "true"
+  default = "false"
 }
 
 variable "flower_fargate_enabled" {

@@ -28,11 +28,11 @@ variable "api_max_replicas" {
 }
 
 variable "api_memory_request" {
-  default = "128Mi"
+  default = "1Gi"
 }
 
 variable "api_memory_limit" {
-  default = "256Mi"
+  default = "1Gi"
 }
 
 variable "api_cpu_request" {
@@ -40,7 +40,7 @@ variable "api_cpu_request" {
 }
 
 variable "api_cpu_limit" {
-  default = "200m"
+  default = "1"
 }
 
 variable "api_ingress_sub_path" {
@@ -134,7 +134,7 @@ variable "worker_max_replicas" {
 }
 
 variable "worker_memory_request" {
-  default = "256Mi"
+  default = "1Gi"
 }
 
 variable "worker_memory_limit" {

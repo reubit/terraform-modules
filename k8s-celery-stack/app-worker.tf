@@ -19,6 +19,7 @@ module "worker" {
   autoscaling_enabled               = "true"
   autoscaling_min_replicas          = local.worker_min_replicas
   autoscaling_max_replicas          = var.worker_max_replicas
+  autoscaling_cpu_target_percentage = "10"
   service_enabled                   = "false"
   ingress_enabled                   = "false"
   fargate_enabled                   = var.worker_fargate_enabled
@@ -30,7 +31,7 @@ module "worker" {
   service_account_name              = kubernetes_service_account.service_account.metadata[0].name
   healthcheck_command               = "celery -A ${var.celery_app_name} inspect ping -d celery@$HOSTNAME"
   initial_delay_seconds             = "10"
-  timeout_seconds                   = "15"
+  timeout_seconds                   = "30"
   period_seconds                    = "30"
   custom_pod_annotations            = var.worker_custom_pod_annotations
   container_args                    = local.worker_container_args

@@ -142,7 +142,7 @@ variable "worker_memory_limit" {
 }
 
 variable "worker_cpu_request" {
-  default = "1"
+  default = "2"
 }
 
 variable "worker_cpu_limit" {

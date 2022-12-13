@@ -30,7 +30,7 @@ module "worker" {
   service_account_name              = kubernetes_service_account.service_account.metadata[0].name
   healthcheck_command               = "celery -A ${var.celery_app_name} inspect ping -d celery@$HOSTNAME"
   initial_delay_seconds             = "10"
-  timeout_seconds                   = "5"
+  timeout_seconds                   = "15"
   period_seconds                    = "30"
   custom_pod_annotations            = var.worker_custom_pod_annotations
   container_args                    = local.worker_container_args

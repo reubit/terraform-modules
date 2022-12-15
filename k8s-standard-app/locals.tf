@@ -123,6 +123,11 @@ locals {
     AWS_REGION                        = local.aws_region
     AWS_DEFAULT_REGION                = local.aws_region
     AWS_STS_REGIONAL_ENDPOINTS        = "regional"
+
+    # Datadog library env vars
+    DD_ENV     = local.app_environment
+    DD_SERVICE = module.resource_names.k8s_resource
+    DD_VERSION = local.docker_image_tag
   }
 
   environment_variables = merge(local.default_environment_variables, var.environment_variables)

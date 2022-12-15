@@ -193,6 +193,11 @@ variable "custom_deployment_annotations" {
   default = {}
 }
 
+variable "custom_deployment_labels" {
+  type    = map(string)
+  default = {}
+}
+
 variable "custom_pod_annotations" {
   type    = map(string)
   default = {}

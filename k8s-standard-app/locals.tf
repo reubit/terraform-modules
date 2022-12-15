@@ -3,7 +3,7 @@ locals {
   aws_account_id             = var.aws_account_id != "" ? var.aws_account_id : var.common_variables["aws_account_id"]
   aws_account_name           = var.aws_account_name != "" ? var.aws_account_name : var.common_variables["aws_account_name"]
   k8s_cluster_name           = var.k8s_cluster_name != "" ? var.k8s_cluster_name : lookup(var.common_variables, "k8s_cluster_name", "eks-${local.aws_account_name}")
-  k8s_namespace              = var.k8s_namespace != "" ? var.k8s_namespace : lookup(var.common_variables,"k8s_namespace","${var.app_team}-${var.app_static_environment}")
+  k8s_namespace              = var.k8s_namespace != "" ? var.k8s_namespace : lookup(var.common_variables, "k8s_namespace", "${var.app_team}-${var.app_static_environment}")
   app_org                    = var.app_org != "" ? var.app_realm : var.common_variables["app_org"]
   app_realm                  = var.app_realm != "" ? var.app_realm : var.common_variables["app_realm"]
   app_account                = var.app_account != "" ? var.app_account : var.common_variables["app_account"]
@@ -125,7 +125,16 @@ locals {
     AWS_STS_REGIONAL_ENDPOINTS        = "regional"
   }
 
-  environment_variables = merge(local.default_environment_variables,var.environment_variables)
+  environment_variables = merge(local.default_environment_variables, var.environment_variables)
+
+  default_deployment_labels = {
+    "tags.datadoghq.com/env"     = local.environment
+    "tags.datadoghq.com/service" = module.resource_names.k8s_resource
+    "tags.datadoghq.com/version" = local.docker_image_tag
+  }
+
+  # Merge final map of deployment labels
+  deployment_labels_json = jsonencode(merge(local.default_deployment_labels, var.custom_deployment_labels))
 
   default_deployment_annotations = {
     "${local.app_owner_domain}/gitlab-project-id"          = lookup(var.common_variables, "gitlab_project_id", "")
@@ -140,16 +149,16 @@ locals {
   }
 
   # Merge final map of deployment annotations
-  deployment_annotations_json = jsonencode(merge(local.default_deployment_annotations,var.custom_deployment_annotations))
+  deployment_annotations_json = jsonencode(merge(local.default_deployment_annotations, var.custom_deployment_annotations))
 
   iam_role_name   = var.iam_role_name != "" ? var.iam_role_name : (var.iam_role_create ? module.aws-iam-role-k8s[0].name : "")
   prometheus_port = var.prometheus_metrics_port != "" ? var.prometheus_metrics_port : var.service_port
 
   default_pod_annotations = {
-    "prometheus.io/scrape"                       = var.prometheus_metrics_enabled
-    "prometheus.io/port"                         = local.prometheus_port
-    "prometheus.io/path"                         = var.prometheus_metrics_path
-    "iam.amazonaws.com/role"                     = var.iam_role_kube2iam_enabled ? local.iam_role_name : ""
+    "prometheus.io/scrape"                         = var.prometheus_metrics_enabled
+    "prometheus.io/port"                           = local.prometheus_port
+    "prometheus.io/path"                           = var.prometheus_metrics_path
+    "iam.amazonaws.com/role"                       = var.iam_role_kube2iam_enabled ? local.iam_role_name : ""
     "${local.app_owner_domain}/gitlab-project-id"  = lookup(var.common_variables, "gitlab_project_id", "")
     "${local.app_owner_domain}/gitlab-project-url" = lookup(var.common_variables, "gitlab_project_url", "")
   }
@@ -176,20 +185,25 @@ locals {
 
   # Define pod lables
   infrastructure_label = var.fargate_enabled ? "fargate" : "standard"
-  default_pod_labels   = { "infrastructure" = local.infrastructure_label }
-  pod_labels_json      = jsonencode(merge(local.default_pod_labels, var.custom_pod_labels))
+  default_pod_labels = {
+    "infrastructure"             = local.infrastructure_label
+    "tags.datadoghq.com/env"     = local.environment
+    "tags.datadoghq.com/service" = module.resource_names.k8s_resource
+    "tags.datadoghq.com/version" = local.docker_image_tag
+  }
+  pod_labels_json = jsonencode(merge(local.default_pod_labels, var.custom_pod_labels))
 
   # Service account details
-  
+
   default_service_account_name         = var.service_account_create ? module.resource_names.k8s_resource : "null"
   service_account_name                 = var.service_account_name != "" ? var.service_account_name : local.default_service_account_name
   service_account_iam_annotation_value = "arn:aws:iam::${local.aws_account_id}:role/${local.iam_role_name}"
-  service_account_annotations          = merge(local.default_service_account_annotations,var.service_account_custom_annotations)
+  service_account_annotations          = merge(local.default_service_account_annotations, var.service_account_custom_annotations)
   service_account_labels               = merge(local.default_service_account_labels, var.service_account_custom_labels)
-  default_service_account_annotations  = {
+  default_service_account_annotations = {
     "eks.amazonaws.com/role-arn" = var.iam_role_service_accounts_enabled ? local.service_account_iam_annotation_value : ""
   }
-  default_service_account_labels       = {
+  default_service_account_labels = {
     "app_environment" = local.app_environment
     "app_team"        = local.app_team
     "app_product"     = local.app_product
@@ -236,6 +250,7 @@ deployment:
   command: ${jsonencode(var.container_command)}
   args: ${jsonencode(var.container_args)}
   annotations: ${local.deployment_annotations_json}
+  labels: ${local.deployment_labels_json}
   replicaCount: ${var.replica_count}
   rollingUpdate:
     maxSurge: ${var.max_surge}

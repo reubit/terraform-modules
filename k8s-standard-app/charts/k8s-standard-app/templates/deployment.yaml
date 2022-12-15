@@ -6,6 +6,9 @@ metadata:
     app: {{ template "fullname" . }}
     release: {{ .Release.Name }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+{{- with .Values.deployment.labels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
   annotations:
 {{- with .Values.deployment.annotations }}
 {{ toYaml . | indent 4 }}

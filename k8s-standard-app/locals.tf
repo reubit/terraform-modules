@@ -128,7 +128,7 @@ locals {
   environment_variables = merge(local.default_environment_variables, var.environment_variables)
 
   default_deployment_labels = {
-    "tags.datadoghq.com/env"     = local.environment
+    "tags.datadoghq.com/env"     = local.app_environment
     "tags.datadoghq.com/service" = module.resource_names.k8s_resource
     "tags.datadoghq.com/version" = local.docker_image_tag
   }
@@ -187,7 +187,7 @@ locals {
   infrastructure_label = var.fargate_enabled ? "fargate" : "standard"
   default_pod_labels = {
     "infrastructure"             = local.infrastructure_label
-    "tags.datadoghq.com/env"     = local.environment
+    "tags.datadoghq.com/env"     = local.app_environment
     "tags.datadoghq.com/service" = module.resource_names.k8s_resource
     "tags.datadoghq.com/version" = local.docker_image_tag
   }

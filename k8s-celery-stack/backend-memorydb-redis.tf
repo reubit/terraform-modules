@@ -1,7 +1,7 @@
 module "resource_names_memorydb" {
   source           = "git::https://github.com/reubit/terraform-modules.git//rbt-resource-names"
   common_variables = local.common_variables
-  instance         = "memorydb"
+  app_instance     = "memorydb"
 }
 
 module "memory_db" {

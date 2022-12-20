@@ -3,7 +3,6 @@ module "memory_db" {
   version = "1.1.2"
 
   # Disable creation of cluster and all resources
-  count  = var.memorydb_enabled ? 1 : 0
   create = var.memorydb_enabled
 
   name                       = module.resource_names.aws_dash_delimited

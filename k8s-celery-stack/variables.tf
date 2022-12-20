@@ -3,7 +3,7 @@ variable "log_level" {
 }
 
 variable "celery_app_name" {
-  default = "celery_tasks"
+  default = "tasks.celery"
 }
 
 variable "celery_broker" {
@@ -194,3 +194,30 @@ variable "elasticache_node_type" {
   default = "cache.t3.micro"
 }
 
+variable "memorydb_enabled" {
+  default = true
+}
+
+variable "memorydb_redis_port" {
+  default = "6379"
+}
+
+variable "memorydb_auto_minor_version_upgrade" {
+  default = true
+}
+
+variable "memorydb_engine_version" {
+  default = "6.2"
+}
+
+variable "memorydb_node_type" {
+  default = "db.t4g.small"
+}
+
+variable "memorydb_num_shards" {
+  default = 1
+}
+
+variable "memorydb_num_replicas_per_shard" {
+  default = 1
+}

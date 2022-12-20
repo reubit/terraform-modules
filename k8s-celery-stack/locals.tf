@@ -91,6 +91,7 @@ locals {
     DYNAMODB_TABLE_NAME   = local.dynamodb_name
     CELERY_BROKER         = local.celery_broker_uris[var.celery_broker]
     CELERY_RESULT_BACKEND = local.celery_result_backend_uris[var.celery_result_backend]
+    REDIS_DB_URL          = "redis://${module.memory_db.cluster_endpoint_address}:${module.memory_db.cluster_endpoint_port}/0"
   }
 
   default_api_environment_variables = {

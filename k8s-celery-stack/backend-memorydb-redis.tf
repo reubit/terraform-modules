@@ -20,6 +20,7 @@ module "memory_db" {
   num_replicas_per_shard     = var.memorydb_num_replicas_per_shard
 
   create_acl               = false
+  acl_name                 = "open-access"
   tls_enabled              = false
   security_group_ids       = [aws_security_group.memory_db[0].id]
   maintenance_window       = "sun:23:00-mon:01:30"

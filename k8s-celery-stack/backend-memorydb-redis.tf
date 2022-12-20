@@ -6,8 +6,8 @@ module "memory_db" {
   count  = var.memorydb_enabled ? 1 : 0
   create = var.memorydb_enabled
 
-  name                       = module.resource_name.aws_dash_delimited
-  description                = module.resource_name.aws_dash_delimited
+  name                       = module.resource_names.aws_dash_delimited
+  description                = module.resource_names.aws_dash_delimited
   engine_version             = var.memorydb_engine_version
   auto_minor_version_upgrade = var.memorydb_auto_minor_version_upgrade
   node_type                  = var.memorydb_node_type
@@ -18,13 +18,13 @@ module "memory_db" {
   security_group_ids = [aws_security_group.memory_db[0].id]
 
   create_parameter_group      = true
-  parameter_group_name        = module.resource_name.aws_dash_delimited
-  parameter_group_description = module.resource_name.aws_dash_delimited
+  parameter_group_name        = module.resource_names.aws_dash_delimited
+  parameter_group_description = module.resource_names.aws_dash_delimited
   parameter_group_family      = "memorydb_redis6"
 
   create_subnet_group      = true
-  subnet_group_name        = module.resource_name.aws_dash_delimited
-  subnet_group_description = module.resource_name.aws_dash_delimited
+  subnet_group_name        = module.resource_names.aws_dash_delimited
+  subnet_group_description = module.resource_names.aws_dash_delimited
   subnet_ids               = data.aws_subnets.subnets[0].ids
 }
 

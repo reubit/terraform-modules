@@ -19,9 +19,12 @@ module "memory_db" {
   num_shards                 = var.memorydb_num_replicas_per_shard
   num_replicas_per_shard     = var.memorydb_num_replicas_per_shard
 
-  create_acl         = false
-  tls_enabled        = false
-  security_group_ids = [aws_security_group.memory_db[0].id]
+  create_acl               = false
+  tls_enabled              = false
+  security_group_ids       = [aws_security_group.memory_db[0].id]
+  maintenance_window       = "sun:23:00-mon:01:30"
+  snapshot_retention_limit = 1
+  snapshot_window          = "05:00-09:00"
 
   create_parameter_group      = true
   parameter_group_name        = module.resource_names_memorydb.aws_dash_delimited

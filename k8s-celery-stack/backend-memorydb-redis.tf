@@ -1,3 +1,9 @@
+module "resource_names_memorydb" {
+  source           = "git::https://github.com/reubit/terraform-modules.git//rbt-resource-names"
+  common_variables = local.common_variables
+  instance         = "memorydb"
+}
+
 module "memory_db" {
   source  = "terraform-aws-modules/memory-db/aws"
   version = "1.1.2"
@@ -5,8 +11,8 @@ module "memory_db" {
   # Disable creation of cluster and all resources
   create = var.memorydb_enabled
 
-  name                       = module.resource_names.aws_dash_delimited
-  description                = module.resource_names.aws_dash_delimited
+  name                       = module.resource_names_memorydb.aws_dash_delimited
+  description                = module.resource_names_memorydb.aws_dash_delimited
   engine_version             = var.memorydb_engine_version
   auto_minor_version_upgrade = var.memorydb_auto_minor_version_upgrade
   node_type                  = var.memorydb_node_type
@@ -17,20 +23,20 @@ module "memory_db" {
   security_group_ids = [aws_security_group.memory_db[0].id]
 
   create_parameter_group      = true
-  parameter_group_name        = module.resource_names.aws_dash_delimited
-  parameter_group_description = module.resource_names.aws_dash_delimited
+  parameter_group_name        = module.resource_names_memorydb.aws_dash_delimited
+  parameter_group_description = module.resource_names_memorydb.aws_dash_delimited
   parameter_group_family      = "memorydb_redis6"
 
   create_subnet_group      = true
-  subnet_group_name        = module.resource_names.aws_dash_delimited
-  subnet_group_description = module.resource_names.aws_dash_delimited
+  subnet_group_name        = module.resource_names_memorydb.aws_dash_delimited
+  subnet_group_description = module.resource_names_memorydb.aws_dash_delimited
   subnet_ids               = data.aws_subnets.subnets[0].ids
 }
 
 resource "aws_security_group" "memory_db" {
   count       = var.memorydb_enabled ? 1 : 0
-  name        = module.resource_names.aws_dot_delimited
-  description = module.resource_names.aws_dot_delimited
+  name        = module.resource_names_memorydb.aws_dot_delimited
+  description = module.resource_names_memorydb.aws_dot_delimited
   vpc_id      = data.aws_eks_cluster.cluster[0].vpc_config[0].vpc_id
 }
 

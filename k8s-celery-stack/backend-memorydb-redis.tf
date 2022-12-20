@@ -19,6 +19,7 @@ module "memory_db" {
   num_shards                 = var.memorydb_num_replicas_per_shard
   num_replicas_per_shard     = var.memorydb_num_replicas_per_shard
 
+  create_acl         = false
   tls_enabled        = false
   security_group_ids = [aws_security_group.memory_db[0].id]
 

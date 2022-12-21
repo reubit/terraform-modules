@@ -103,8 +103,12 @@ spec:
         - name: {{ template "name" . }}
           image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}"
           imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
-          {{- with .Values.deployment.environmentVariables }}
           env:
+          - name: DD_AGENT_HOST
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+          {{- with .Values.deployment.environmentVariables }}
           {{- range $key, $value := . }}
           - name: {{ $key }}
             value: "{{ $value }}"  

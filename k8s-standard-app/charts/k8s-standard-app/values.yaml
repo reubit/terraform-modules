@@ -23,6 +23,7 @@ deployment:
     requests:
       cpu: 100m
       memory: 128Mi
+  terminationGracePeriodSeconds: 30
   podAntiAffinity:
     preferred:
       node:
@@ -82,8 +83,6 @@ deployment:
   #   name: tmp
   # securityContext:
   #   fsGroup: 2
-  # lifecycle:
-  #   terminationGracePeriodSeconds: 45
 
 autoscaling:
   enabled: false

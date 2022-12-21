@@ -161,6 +161,7 @@ spec:
             readOnly: true
           {{- end }}
 {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.deployment.terminationGracePeriodSeconds }}
 {{- if .Values.deployment.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.deployment.nodeSelector | indent 8 }}

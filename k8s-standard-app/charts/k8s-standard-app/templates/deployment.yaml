@@ -110,6 +110,10 @@ spec:
             value: "{{ $value }}"  
           {{- end }}
           {{- end }}
+{{- with .Values.deployment.lifecycle }}
+          lifecycle:
+{{ toYaml . | indent 12 }}
+{{- end }}
           ports:
             - containerPort: {{ .Values.service.port.internalPort }}
 {{- if .Values.deployment.workingDir }}

@@ -82,6 +82,8 @@ deployment:
   #   name: tmp
   # securityContext:
   #   fsGroup: 2
+  # lifecycle:
+  #   terminationGracePeriodSeconds: 45
 
 autoscaling:
   enabled: false

@@ -187,7 +187,7 @@ variable "elasticache_apply_immediately" {
 }
 
 variable "elasticache_redis_version" {
-  default = "5.0.6"
+  default = "7.0"
 }
 
 variable "elasticache_node_type" {

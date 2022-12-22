@@ -183,7 +183,7 @@ variable "elasticache_enabled" {
 }
 
 variable "elasticache_apply_immediately" {
-  default = false
+  default = true
 }
 
 variable "elasticache_redis_version" {

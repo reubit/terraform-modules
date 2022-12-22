@@ -11,7 +11,7 @@ variable "redis_replicas" {
 }
 
 variable "redis_version" {
-  default = "5.0.6"
+  default = "7.0"
 }
 
 variable "node_type" {
@@ -23,7 +23,7 @@ variable "automatic_failover_enabled" {
 }
 
 variable "parameter_group_name" {
-  default = "default.redis5.0"
+  default = "default.redis7"
 }
 
 variable "apply_immediately" {

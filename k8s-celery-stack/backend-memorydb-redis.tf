@@ -16,7 +16,7 @@ module "memory_db" {
   engine_version             = var.memorydb_engine_version
   auto_minor_version_upgrade = var.memorydb_auto_minor_version_upgrade
   node_type                  = var.memorydb_node_type
-  num_shards                 = var.memorydb_num_replicas_per_shard
+  num_shards                 = var.memorydb_num_shards
   num_replicas_per_shard     = var.memorydb_num_replicas_per_shard
 
   create_acl               = false

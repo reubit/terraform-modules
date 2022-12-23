@@ -221,3 +221,7 @@ variable "memorydb_num_shards" {
 variable "memorydb_num_replicas_per_shard" {
   default = 1
 }
+
+variable "memorydb_snapshot_name" {
+  default = null
+}

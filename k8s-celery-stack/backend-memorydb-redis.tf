@@ -26,6 +26,7 @@ module "memory_db" {
   maintenance_window       = "sun:23:00-mon:01:30"
   snapshot_retention_limit = 1
   snapshot_window          = "05:00-09:00"
+  snapshot_name            = var.memorydb_snapshot_name
 
   create_parameter_group      = true
   parameter_group_name        = module.resource_names_memorydb.aws_dash_delimited

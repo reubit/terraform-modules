@@ -214,6 +214,10 @@ variable "memorydb_node_type" {
   default = "db.t4g.small"
 }
 
+variable "memorydb_data_tiering" {
+  default = false
+}
+
 variable "memorydb_num_shards" {
   default = 1
 }

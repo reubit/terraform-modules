@@ -5,8 +5,7 @@ module "resource_names_memorydb" {
 }
 
 module "memory_db" {
-  source  = "terraform-aws-modules/memory-db/aws"
-  version = "1.1.2"
+  source  = "git::https://github.com/reubit/terraform-modules.git//terraform-aws-memory-db"
 
   # Disable creation of cluster and all resources
   create = var.memorydb_enabled
@@ -18,6 +17,7 @@ module "memory_db" {
   node_type                  = var.memorydb_node_type
   num_shards                 = var.memorydb_num_shards
   num_replicas_per_shard     = var.memorydb_num_replicas_per_shard
+  data_tiering               = var.memorydb_data_tiering
 
   create_acl               = false
   acl_name                 = "open-access"

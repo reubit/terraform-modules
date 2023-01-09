@@ -59,6 +59,7 @@ deployment:
   # podAnnotations: {}
   # podLabels: {}
   # nodeSelector: {}
+  # tolerations: {}
   # workingDir: /
   # secretVolumeMounts:
   # - secretName: example-secret-name

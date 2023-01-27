@@ -69,16 +69,19 @@ locals {
   dynamodb_name = "${module.resource_names.aws_dot_delimited}.celery-results"
   rabbitmq_name = "${module.resource_names.k8s_resource}-rabbitmq"
   redis_host    = module.redis.primary_endpoint_address
+  redis_address = "${local.redis_host}:6379"
 
   celery_broker_uris = {
-    "redis"    = "redis://${local.redis_host}:6379/1"
+    "redis"    = "redis://${local.redis_address}/1"
     "rabbitmq" = "amqp://celery:celery@${local.rabbitmq_name}:5672//"
   }
 
   celery_result_backend_uris = {
-    "redis"    = "redis://${local.redis_host}:6379/2"
+    "redis"    = "redis://${local.redis_address}/2"
     "dynamodb" = "dynamodb://@${local.aws_region}/${join("", aws_dynamodb_table.celery_results_table.*.name)}?read=${var.dynamodb_table_read_capacity}&write=${var.dynamodb_table_write_capacity}&ttl_seconds=${var.dynamodb_table_ttl_seconds}"
   }
+
+  redis_db_address = "${module.memory_db.cluster_endpoint_address}:${module.memory_db.cluster_endpoint_port}"
 
   default_environment_variables = {
     K8S_RESOURCE_NAME     = module.resource_names.k8s_resource
@@ -91,7 +94,7 @@ locals {
     DYNAMODB_TABLE_NAME   = local.dynamodb_name
     CELERY_BROKER         = local.celery_broker_uris[var.celery_broker]
     CELERY_RESULT_BACKEND = local.celery_result_backend_uris[var.celery_result_backend]
-    REDIS_DB_URL          = "redis://${module.memory_db.cluster_endpoint_address}:${module.memory_db.cluster_endpoint_port}/0"
+    REDIS_DB_URL          = "redis://${local.redis_db_address}/0"
   }
 
   default_api_environment_variables = {

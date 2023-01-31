@@ -344,11 +344,11 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: ${var.ingress_class}
     nginx.ingress.kubernetes.io/proxy-body-size: 32m
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "1"
-    nginx.ingress.kubernetes.io/proxy-next-upstream: "error timeout http_500 http_502 http_503 http_504 non_idempotent"
-    nginx.ingress.kubernetes.io/proxy-next-upstream-tries: "5"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "5"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "5"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "5"
+    nginx.ingress.kubernetes.io/proxy-next-upstream: "error timeout http_500 http_502 http_503 http_504"
+    nginx.ingress.kubernetes.io/proxy-next-upstream-tries: "4"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "15"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "15"
 ${var.ingress_rewrite_target_enabled ? local.ingress_rewrite_target_yaml : ""}
 
 podDisruptionBudget:

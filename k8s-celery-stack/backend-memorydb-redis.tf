@@ -32,6 +32,7 @@ module "memory_db" {
   parameter_group_name        = module.resource_names_memorydb.aws_dash_delimited
   parameter_group_description = module.resource_names_memorydb.aws_dash_delimited
   parameter_group_family      = "memorydb_redis6"
+  parameter_group_parameters  = var.memorydb_parameter_group_parameters
 
   create_subnet_group      = true
   subnet_group_name        = module.resource_names_memorydb.aws_dash_delimited

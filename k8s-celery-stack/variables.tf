@@ -229,3 +229,9 @@ variable "memorydb_num_replicas_per_shard" {
 variable "memorydb_snapshot_name" {
   default = null
 }
+
+variable "memorydb_parameter_group_parameters" {
+  description = "A list of parameter maps to apply"
+  type        = list(map(string))
+  default     = []
+}

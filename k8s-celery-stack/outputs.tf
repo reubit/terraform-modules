@@ -10,6 +10,10 @@ output "iam_role_name" {
   value = local.iam_role_name
 }
 
+output "service_account_name" {
+  value = module.resource_names.k8s_resource
+}
+
 output "redis_address" {
   value = local.redis_address
 }

@@ -39,7 +39,7 @@ module "flower" {
   container_command = [
     "/bin/bash",
     "-c",
-    "celery -A ${var.celery_app_name} flower --address=0.0.0.0 --port=5555 --url_prefix=${local.ingress_path}${var.flower_ingress_sub_path}",
+    "celery -A ${var.celery_app_name} flower --address=0.0.0.0 --port=5555 --url_prefix=${local.ingress_path}${var.flower_ingress_sub_path} --purge_offline_workers=30",
   ]
 }
 

@@ -10,9 +10,9 @@ module "flower" {
 
   # Deployment specific resources
   cpu_request    = "100m"
-  cpu_limit      = "200m"
-  memory_request = "256Mi"
-  memory_limit   = "256Mi"
+  cpu_limit      = "500m"
+  memory_request = "1Gi"
+  memory_limit   = "1Gi"
 
   # Deployment specific config
   working_dir                       = var.working_dir
